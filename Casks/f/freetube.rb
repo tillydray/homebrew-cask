@@ -33,7 +33,14 @@ cask "freetube" do
   depends_on macos: ">= :catalina"
 
   app "FreeTube.app"
-
+  
+  postflight do
+    if Hardware::CPU.arm?
+      puts "Please run the following command to remove the quarantine attribute:"
+      puts "xattr -d com.apple.quarantine /Applications/FreeTube.app"
+    end
+  end
+  
   uninstall quit: "io.freetubeapp.freetube"
 
   zap trash: [
